@@ -2,7 +2,7 @@
 Overview
 This repository contains the implementation of a simple RAG (Retrieval-Augmented Generation) system for Contract Q&A (Question & Answer) tasks. The goal of this project is to build, evaluate, and improve an AI-powered system capable of understanding and responding to questions related to legal contracts.
 
-#Project Structure
+# Project Structure
 backend/src/: This directory contains the source code for the RAG system implementation.
 backend/data/: This directory holds any necessary data files, such as training datasets or contract documents.
 backend/tests/: This directory includes unit tests for the codebase.
@@ -10,7 +10,7 @@ frontend/: includes the frontend codebase
 README.md: This file you are currently reading, providing an overview of the project.
 requirements.txt: A list of Python dependencies required to run the project.
 
-#Getting Started
+# Getting Started
 To set up and run the project locally, follow these steps:
 
 1. Clone the repository to your local machine:
@@ -27,9 +27,9 @@ pip install -r requirements.txt
 python src/main.py
 
 
-#USAGE
+# USAGE
 
-#CONTACT
+# CONTACT
 
 For any inquires or feedback, please contact me at:
 
