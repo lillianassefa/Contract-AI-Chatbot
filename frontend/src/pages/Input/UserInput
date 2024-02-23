@@ -1,0 +1,55 @@
+import { TextField, Typography, Box, Stack, Button, Input } from '@mui/material'
+import Card from '../../components/Card'
+import { useState } from 'react'
+
+function MyFilePicker() {
+  const [selectedFile, setSelectedFile] = useState(null)
+
+  const handleChange = (event) => {
+    setSelectedFile(event.target.files[0])
+  }
+
+  return (
+    <Stack direction={'row'} spacing={2}>
+      <input
+        id="file-picker"
+        type="file"
+        onChange={handleChange}
+        inputProps={{ sx: { border: 'none' } }}
+      />
+      <Typography>{selectedFile}</Typography>
+    </Stack>
+  )
+}
+
+const UserInput = () => {
+  return (
+    <Card>
+      <Typography gutterBottom fontWeight={'bold'}>
+        Input
+      </Typography>
+      <TextField
+        placeholder="Paste your text here..."
+        multiline
+        minRows={8}
+        borderColor="#C1B9F0"
+        sx={{
+          width: '100%',
+          background: '#fcfcfc',
+        }}
+      ></TextField>
+      <Box height={'15px'} />
+      <Stack direction={'row'} spacing={2} justifyContent={'space-between'}>
+        <MyFilePicker />
+        <Button
+          size="small"
+          variant="contained"
+          sx={{ fontSize: '10px', padding: '5px' }}
+        >
+          process text
+        </Button>
+      </Stack>
+    </Card>
+  )
+}
+export default UserInput
