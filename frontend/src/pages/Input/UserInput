@@ -1,10 +1,10 @@
 import { TextField, Typography, Box, Stack, Button, Input } from '@mui/material'
 import Card from '../../components/Card'
 import { useState } from 'react'
+import axios from 'axios'
 
-function MyFilePicker() {
+function MyFilePicker({setFile}) {
   const [selectedFile, setSelectedFile] = useState(null)
-
   const handleChange = (event) => {
     setSelectedFile(event.target.files[0])
   }
@@ -23,6 +23,23 @@ function MyFilePicker() {
 }
 
 const UserInput = () => {
+  const [file, setFile] = useState(null);
+  const [inputText, setInputText] = useState('');
+  const [answer, setAnswer] = useState('');
+
+  const handleSubmit = async () => {
+    try {
+      let formData = new FormData();
+      formData.append('file', file);
+      formData.append('text', inputText);
+    
+      const response = await axios.post('', formData);
+      setAnswer(response.data.answer);
+    }
+    catch(error) {
+      console.error('Error submitting input:', error)
+    }
+  }
   return (
     <Card>
       <Typography gutterBottom fontWeight={'bold'}>
@@ -42,6 +59,7 @@ const UserInput = () => {
       <Stack direction={'row'} spacing={2} justifyContent={'space-between'}>
         <MyFilePicker />
         <Button
+          onClick={handleSubmit}
           size="small"
           variant="contained"
           sx={{ fontSize: '10px', padding: '5px' }}
@@ -49,6 +67,11 @@ const UserInput = () => {
           process text
         </Button>
       </Stack>
+      {answer && (<Box mt={2}>
+        <Typography>
+          {answer}
+        </Typography>
+      </Box>) }
     </Card>
   )
 }

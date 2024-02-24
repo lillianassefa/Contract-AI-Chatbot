@@ -4,6 +4,7 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import AttachFileIcon from '@mui/icons-material/AttachFile'
 import { styled } from '@mui/material/styles'
 import { useState, useRef } from 'react'
+import axios from 'axios'
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -27,9 +28,17 @@ const ChatInput = () => {
     console.log('filename', event.target.files[0])
   }
 
-  const onSend = () => {
+  const onSend = async () => {
+   const  text = userInputRef.current.value;
     console.log('userInput', userInputRef.current.value)
-    userInputRef.current.value = ''
+    try{
+      const response = await axios.post('',{text});
+      console.log('Answer:', response.data.answer);
+    }
+    catch(error){
+      console.error('Error sending question:', error);
+    }
+    
   }
   return (
     <Stack sx={{ padding: '0px 0px 20px 15px' }}>

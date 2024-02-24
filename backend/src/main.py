@@ -1,5 +1,3 @@
-# main.py
-
 from fastapi import FastAPI, File, UploadFile, Form
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -28,7 +26,6 @@ vectorstore = create_vectorstore()
 
 conversation_chain = create_conversational_chain(llm, vectorstore)
 
-# Route to handle submission of text
 @app.post("/submit_text/")
 def submit_text(text: str = Form(...)):
     
@@ -36,11 +33,12 @@ def submit_text(text: str = Form(...)):
     answer = result["answer"]
     return {"answer": answer}
 
-# Route to handle submission of file
+
 @app.post("/submit_file/")
 async def submit_file(file: UploadFile = File(...)):
- 
-    answer = "This is a dummy answer for the uploaded file."
+    contents = await file.read()
+    result = conversation_chain({"file_contents": contents})
+    answer = result["answer"]
     return {"answer": answer}
 
 if __name__ == "__main__":
