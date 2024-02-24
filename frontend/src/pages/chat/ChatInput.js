@@ -18,7 +18,7 @@ const VisuallyHiddenInput = styled('input')({
   width: 1,
 })
 
-const ChatInput = () => {
+const ChatInput = (props) => {
   const userInputRef = useRef(null)
 
   const [file, setFile] = useState(null)
@@ -29,14 +29,15 @@ const ChatInput = () => {
   }
 
   const onSend = async () => {
-   const  text = userInputRef.current.value;
     console.log('userInput', userInputRef.current.value)
-    try{
-      const response = await axios.post('',{text});
-      console.log('Answer:', response.data.answer);
-    }
-    catch(error){
-      console.error('Error sending question:', error);
+    try {
+      console.log("++here");
+      let formData = new FormData();
+      formData.append('file', file);
+      const response = await axios.post('http://localhost:8000/submit_file/', formData)
+      props.setFileContents(response.data.file_contents);
+    } catch (error) {
+      console.error('Error submitting input:', error);
     }
     
   }

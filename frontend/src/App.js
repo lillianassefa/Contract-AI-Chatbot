@@ -77,25 +77,33 @@
 // }
 
 // export default App;
-import { Stack } from '@mui/material'
-import Topbar from './pages/TopBar/TopBar'
-import UserInput from './pages/Input/UserInput'
-import Chat from './pages/chat/chat'
+import { Stack, Typography } from "@mui/material";
+import Topbar from "./pages/TopBar/TopBar";
+import Chat from "./pages/chat/chat";
+import { useState } from "react";
+import Card from "./components/card";
 
 function App() {
+  const [fileContent, setFileContents] = useState(null);
+
   return (
     <Stack spacing={2}>
       <Topbar />
       <Stack
-        direction={'row'}
+        direction={"row"}
         spacing={2}
-        sx={{ padding: '0px 30px' }}
-        justifyContent={'right'}
+        sx={{ padding: "0px 30px" }}
+        justifyContent={"right"}
       >
-        <Chat />
+        {fileContent !== null && (
+          <Card>
+            <Typography>{fileContent}</Typography>
+          </Card>
+        )}
+        <Chat setFileContents= {setFileContents} />
       </Stack>
     </Stack>
-  )
+  );
 }
 
-export default App
+export default App;

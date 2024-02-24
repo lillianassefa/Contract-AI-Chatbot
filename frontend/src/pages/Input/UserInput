@@ -1,13 +1,15 @@
-import { TextField, Typography, Box, Stack, Button, Input } from '@mui/material'
-import Card from '../../components/Card'
-import { useState } from 'react'
-import axios from 'axios'
+import { TextField, Typography, Box, Stack, Button } from '@mui/material';
+import Card from '../../components/Card';
+import { useState } from 'react';
+import axios from 'axios';
 
-function MyFilePicker({setFile}) {
-  const [selectedFile, setSelectedFile] = useState(null)
+function MyFilePicker() {
+  const [selectedFile, setSelectedFile] = useState(null);
+
   const handleChange = (event) => {
-    setSelectedFile(event.target.files[0])
-  }
+    setSelectedFile(event.target.files[0]);
+  };
+  
 
   return (
     <Stack direction={'row'} spacing={2}>
@@ -17,29 +19,35 @@ function MyFilePicker({setFile}) {
         onChange={handleChange}
         inputProps={{ sx: { border: 'none' } }}
       />
-      <Typography>{selectedFile}</Typography>
+      <Typography>{selectedFile?.name}</Typography>
     </Stack>
-  )
+  );
 }
 
 const UserInput = () => {
   const [file, setFile] = useState(null);
   const [inputText, setInputText] = useState('');
   const [answer, setAnswer] = useState('');
+  const [fileContents, setFileContents] = useState('');
 
   const handleSubmit = async () => {
     try {
+      console.log("++here");
       let formData = new FormData();
       formData.append('file', file);
       formData.append('text', inputText);
-    
-      const response = await axios.post('', formData);
-      setAnswer(response.data.answer);
+      const response = await axios.post('http://10.11.154.91:8000/submit_file/', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      // Set file contents
+      setFileContents(response.data.file_contents);
+    } catch (error) {
+      console.error('Error submitting input:', error);
     }
-    catch(error) {
-      console.error('Error submitting input:', error)
-    }
-  }
+  };
+
   return (
     <Card>
       <Typography gutterBottom fontWeight={'bold'}>
@@ -54,25 +62,31 @@ const UserInput = () => {
           width: '100%',
           background: '#fcfcfc',
         }}
-      ></TextField>
+        value={inputText}
+        onChange={(e) => setInputText(e.target.value)}
+      />
       <Box height={'15px'} />
       <Stack direction={'row'} spacing={2} justifyContent={'space-between'}>
-        <MyFilePicker />
+        <MyFilePicker setFile={setFileContents} />
         <Button
           onClick={handleSubmit}
           size="small"
           variant="contained"
           sx={{ fontSize: '10px', padding: '5px' }}
         >
-          process text
+          Process Text
         </Button>
       </Stack>
-      {answer && (<Box mt={2}>
-        <Typography>
-          {answer}
-        </Typography>
-      </Box>) }
+      {fileContents && (
+        <Box mt={2}>
+          <Typography variant="body2">File Contents:</Typography>
+          <Typography variant="body2" sx={{ whiteSpace: 'pre-line' }}>
+            {fileContents}
+          </Typography>
+        </Box>
+      )}
     </Card>
-  )
-}
-export default UserInput
+  );
+};
+
+export default UserInput;

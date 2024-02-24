@@ -1,10 +1,10 @@
-import { Box, Paper, Stack, Button, IconButton, Avatar } from '@mui/material'
+import { Box, Stack, Button, IconButton, Avatar, } from '@mui/material'
 import ChatInput from './ChatInput'
 import ChatHistory from './ChatHistory'
 import { useState } from 'react'
 import ChatIcon from '@mui/icons-material/Chat'
 
-const Chat = () => {
+const Chat = (props) => {
   const [isHidden, setHide] = useState(false)
 
   return isHidden ? (
@@ -30,7 +30,7 @@ const Chat = () => {
       <Button onClick={() => setHide(true)}>Hide</Button>
       <Stack justifyContent="space-between" spacing={2} sx={{ height: '95%' }}>
         <ChatHistory />
-        <ChatInput />
+        <ChatInput setFileContents={props.setFileContents}/>
       </Stack>
     </Box>
   )
