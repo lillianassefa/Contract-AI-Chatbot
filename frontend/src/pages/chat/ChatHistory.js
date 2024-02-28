@@ -1,4 +1,5 @@
-import { List, Box, Typography } from '@mui/material'
+import { List, Box, Typography, Stack} from '@mui/material'
+import FilePresentIcon from '@mui/icons-material/FilePresent'
 
 const SingleChat = (props) => {
   return (
@@ -11,27 +12,31 @@ const SingleChat = (props) => {
         borderRadius: props.isUser ? '10px 0px 0px 10px' : '0px 10px 10px 0px',
       }}
     >
-      <Typography variant="body1">
-        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque veniam
-        amet officiis doloribus ad nihil dignissimos. Consequatur,
-        necessitatibus totam dolorem autem quia sit temporibus cumque similique
-        vitae numquam error maxime.
-      </Typography>
+      {props.fileName != null && (
+        <Stack direction={'row'} spacing={2}>
+          <FilePresentIcon />
+          <Typography variant="body1"> {props.fileName}</Typography>
+        </Stack>
+      )}
+      {props.fileName != null && <Box height={'10Px'} />}
+      {props.message != null && (
+        <Typography variant="body1">{props.message}</Typography>
+      )}
     </Box>
   )
 }
 
-const ChatHistory = () => {
+const ChatHistory = (props) => {
   return (
     <List sx={{ overflowY: 'auto' }}>
-      <SingleChat />
-      <SingleChat isUser="true" />
-      <SingleChat />
-      <SingleChat isUser="true" />
-      <SingleChat />
-      <SingleChat isUser="true" />
-      <SingleChat />
-      <SingleChat isUser="true" />
+      {props.interaction.map((e, index) => {
+        return <SingleChat key={index} {...e} />
+      })}
+      {/* {props.isLoading && (
+        <Box padding={'0px 15px'}>
+          <CircularProgress size={'30px'} />
+        </Box>
+      )} */}
     </List>
   )
 }
