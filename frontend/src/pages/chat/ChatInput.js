@@ -54,19 +54,27 @@ const ChatInput = (props) => {
       if (file) formData.append("file", file);
       
 
-      const response = await axios.post(
-        "http:///0.0.0.0:8004/upload",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
+      // const response = await axios.post(
+      //   "http:///0.0.0.0:8004/upload",
+      //   formData,
+      //   {
+      //     headers: {
+      //       "Content-Type": "multipart/form-data",
+      //     },
+      //   }
+      // );
+      const response_message = await axios.post(
+        `http://0.0.0.0:8004/message`,
+       {
+            text : {
+              userInput
+            }
         }
       );
-      console.log("b")
+      console.log("file uploaded")
+      let answer = response_message.data.message
 
-
-      let answer = response.data.Answer;
+      // let file_contents = response.data.file_contents;
       console.log(answer)
       // props.setIsLoading(false)
       onInteraction(false, answer, null);
